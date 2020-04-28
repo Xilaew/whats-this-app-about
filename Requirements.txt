@@ -1,0 +1,7 @@
+play-scraper
+google-play-scraper
+numpy
+pandas
+matplotlib
+pillow
+wordcloud
