@@ -5,3 +5,5 @@ pandas
 matplotlib
 pillow
 wordcloud
+flask
+gunicorn

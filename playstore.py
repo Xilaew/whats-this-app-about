@@ -1,21 +1,8 @@
 import os
 
-import play_scraper
 import google_play_scraper
-import numpy as np
-import pandas as pd
-from os import path
-from PIL import Image
-from wordcloud import WordCloud, STOPWORDS, ImageColorGenerator
-import pprint
-
-from google_play_scraper.constants.url import Formats
-from google_play_scraper.utils.request import post
-
 import matplotlib.pyplot as plt
-
-app_id = 'com.taptaptales.fortyfourcats'
-app_id = 'tech.jonas.travelbudget'
+from wordcloud import WordCloud
 
 FILE = os.path.dirname(__file__)
 stopwords = dict()
@@ -23,7 +10,8 @@ stopwords['en'] = set(map(str.strip, open(os.path.join(FILE, 'stopwords_en'), mo
 stopwords['de'] = set(map(str.strip, open(os.path.join(FILE, 'stopwords_de'), mode='r', encoding='utf-8').readlines()))
 stopwords['es'] = None
 
-for lang,country in [('de','de'),('en','us'),('es','es')]:
+
+def create_appcloud( app_id: str, lang: str, country: str):
 	app = google_play_scraper.app(app_id, lang=lang, country=country)
 	try:
 		reviews, cont = google_play_scraper.reviews(app_id, count=500, lang=lang, country=country)
@@ -48,6 +36,11 @@ for lang,country in [('de','de'),('en','us'),('es','es')]:
 		ax[1].set_title('Comments')
 	except ValueError:
 		print('no content')
-	fig.show()
+	return fig
 
-plt.show()
+if __name__ == '__main__':
+	app_id = 'kajfosz.antimatterdimensions'
+	#app_id = 'tech.jonas.travelbudget'
+	for lang, country in [('de','de'),('en','us'),('es','es')]:
+		create_appcloud(app_id, lang, country).show()
+	plt.show()
